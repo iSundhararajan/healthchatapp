@@ -2,21 +2,22 @@ const express = require('express');
 const path = require('path');
 const http = require("http");
 const socketio = require("socket.io")
+const formatMessage = require("./utils/messages")
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
+const yourBud = "Your Bud";
+const botName = "ChatCord Bot";
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'layout')))
 
 //Run when client connects
 io.on('connection', socket => {
-    console.log("New connection....")
-
+    
     //Only displays the user who is connected, Runs when user connects
-    socket.emit('message','Welcome to ChatCord!');
+    socket.emit('message',formatMessage(yourBud, 'Welcome\'s you to ChatCord!'));
 
     //Shown to everyone except the user itself, Runs when user connects
     socket.broadcast.emit('message','A user has joined the chat');
